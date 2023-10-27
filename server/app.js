@@ -1,5 +1,6 @@
 const express = require('express');
 require('express-async-errors');
+require('dotenv').config();
 const app = express();
 
 // import routers
@@ -10,8 +11,6 @@ app.use(express.json());
 
 // connect express.static middleware, serve through /static url
 app.use('/static', express.static('assets'));
-
-app.use('/dogs', dogRouter);
 
 // logger middleware
 //    log method
@@ -31,6 +30,7 @@ app.use((req, res, next) => {
 
 });
 
+app.use('/dogs', dogRouter);
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
@@ -54,6 +54,19 @@ app.use((req, res) => {
   let error = new Error(`The requested resource couldn't be found.`);
   error.statusCode = (404);
   throw error;
+})
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(err.statusCode || 500);
+  let responseObject = {
+    message: err.message,
+    statusCode: res.statusCode,
+  }
+  if (process.env.NODE_ENV !== "production") {
+    responseObject.stackTrace = err.stack;
+  }
+  res.json(responseObject);
 })
 
 const port = 5000;

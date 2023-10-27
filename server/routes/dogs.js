@@ -1,6 +1,6 @@
 const express = require('express');
-
-const router = express.Router();
+const dogsRouter = express.Router();
+const foodsRouter = require('./dog-foods');
 
 // ------------------------------  SERVER DATA ------------------------------  
 
@@ -89,19 +89,21 @@ const deleteDog = (req, res) => {
 
 // ------------------------------  ROUTER ------------------------------  
 
+dogsRouter.use('/:dogId/foods', foodsRouter);
+
 // GET /dogs
-router.get('/', getAllDogs);
+dogsRouter.get('/', getAllDogs);
 
 // GET /dogs/:dogId
-router.get('/:dogId', validateDogId, getDogById);
+dogsRouter.get('/:dogId', validateDogId, getDogById);
 
 // POST /dogs
-router.post('/', validateDogInfo, createDog);
+dogsRouter.post('/', validateDogInfo, createDog);
 
 // PUT /dogs/:dogId
-router.post('/:dogId', validateDogId, validateDogInfo, updateDog);
+dogsRouter.post('/:dogId', validateDogId, validateDogInfo, updateDog);
 
 // // DELETE /dogs/:dogId
-router.delete('/:dogId', validateDogId, deleteDog);
+dogsRouter.delete('/:dogId', validateDogId, deleteDog);
 
-module.exports = router;
+module.exports = dogsRouter;
