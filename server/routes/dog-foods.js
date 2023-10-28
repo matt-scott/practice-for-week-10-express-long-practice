@@ -68,6 +68,6 @@ foodsRouter.get('/', getFoodsByDogId);
 
 // add a food to a dog's food log
 // POST /dogs/:dogId/foods
-foodsRouter.post('/', createFood);
+foodsRouter.post('/', validateFoodInfo, createFood);
 
 module.exports = foodsRouter;

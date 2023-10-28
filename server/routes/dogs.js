@@ -89,7 +89,7 @@ const deleteDog = (req, res) => {
 
 // ------------------------------  ROUTER ------------------------------  
 
-dogsRouter.use('/:dogId/foods', foodsRouter);
+dogsRouter.use('/:dogId/foods', validateDogId, foodsRouter);
 
 // GET /dogs
 dogsRouter.get('/', getAllDogs);
